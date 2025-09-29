@@ -27,10 +27,11 @@ export default function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
               key={item.id}
               onClick={() => onTabChange(item.id)}
               className={`flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-all duration-200 ${
-                isActive
-                  ? 'text-[#0A3764] bg-[#0A3764]/10 scale-110'
-                  : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
-              }`}
+  isActive
+    ? 'text-[#0A3764] bg-white scale-110'   // actif = texte bleu + fond blanc
+    : 'text-white hover:text-gray-200'      // inactif = texte blanc
+}`}
+
             >
               <Icon className={`w-6 h-6 mb-1 ${isActive ? 'animate-pulse' : ''}`} />
               <span className="text-xs font-medium">{item.label}</span>
