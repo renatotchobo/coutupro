@@ -17,7 +17,7 @@ const bannerImages = [
   "https://ibb.co/d0LG8ZYq",
   "https://i.ibb.co/PZWMvhY7/aa085c12bff422a73c5b0590870f69b1.jpg",
   "https://i.ibb.co/5WTtdhLY/98f525db820ae4020e3ba438a8904bae.jpg",
-  "https://i.ibb.co/3yfsYzSQ/a18c4faa8898797d2daa92e63e47861b.jpg",
+  "https://i.ibb.co/TMDgFWYj/ca6ae50fa968d55259bc8ad49d068f7a.jpg",
   "https://i.ibb.co/3yfsYzSQ/a18c4faa8898797d2daa92e63e47861b.jpg",
   "https://i.ibb.co/Wv0b3GC6/dc94ff9c69805c993189d6d68a200f30.jpg"
 ];
