@@ -4,21 +4,8 @@ import { dataService } from '../services/dataService';
 
 // Liste de 10 images en ligne
 const bannerImages = [
-  "https://i.ibb.co/FkqKDSXX/c4f9aea3d2ffc0aa0795c3d3fb6af2ef.jpg",
-  "https://i.ibb.co/GvsxkCN7/a77c81bc7bebde235ba9c5e066cc9847.jpg",
-"https://i.ibb.co/2Yd6Kc0d/dcefdd9b08754ce3cfd945ca3ab52704.jpg",
-"https://i.ibb.co/6787JcLX/8b579ae764f101abdc189c3f1ef9fa44.jpg",
-"https://i.ibb.co/200fhgBq/345fa0708d559ef6ef94332b0dd4442c.jpg",
-"https://i.ibb.co/FkqKDSXX/c4f9aea3d2ffc0aa0795c3d3fb6af2ef.jpghttps://i.ibb.co/FkqKDSXX/c4f9aea3d2ffc0aa0795c3d3fb6af2ef.jpg",
-"https://i.ibb.co/nqFqGY73/b1fd7a067e350e44a0967e474f13cd63.jpg",
-"https://i.ibb.co/yFtjYsyV/5c9d1d906f100a6736f1ce2eb92b63aa.jpg",
-"https://i.ibb.co/67S1bCwx/9284310b66f4dec745fcaa46762298d4.jpg",
-"https://i.ibb.co/XrLXmcQP/a77c81bc7bebde235ba9c5e066cc9847.jpg",
-"https://i.ibb.co/mFb2970M/81f7dc9c4245ca02578603359ed982a4.jpg",
-"https://i.ibb.co/prx9xvLJ/05828a972eb16664c80ece88eaa77405.jpg,
-"https://i.ibb.co/0pK1x7Pz/e396eb0d4d85b18fa76c38ebd1aabb49.jpg",
-"https://i.ibb.co/3yfsYzSQ/a18c4faa8898797d2daa92e63e47861b.jpg",
-"https://i.ibb.co/Wv0b3GC6/dc94ff9c69805c993189d6d68a200f30.jpg",
+  "https://picsum.photos/id/1011/1000/400",
+  "https://picsum.photos/id/1012/1000/400",
   "https://picsum.photos/id/1013/1000/400",
   "https://picsum.photos/id/1014/1000/400",
   "https://picsum.photos/id/1015/1000/400",
