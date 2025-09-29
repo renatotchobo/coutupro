@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Users, Package, DollarSign, Clock, UserPlus, Ruler } from 'lucide-react';
 import { dataService } from '../services/dataService';
 
-// Liste de 10 images en ligne
 const bannerImages = [
   "https://i.ibb.co/FkqKDSXX/c4f9aea3d2ffc0aa0795c3d3fb6af2ef.jpg",
   "https://i.ibb.co/nqFqGY73/b1fd7a067e350e44a0967e474f13cd63.jpg",
@@ -13,12 +12,7 @@ const bannerImages = [
   "https://i.ibb.co/prx9xvLJ/05828a972eb16664c80ece88eaa77405.jpg",
   "https://i.ibb.co/0pK1x7Pz/e396eb0d4d85b18fa76c38ebd1aabb49.jpg",
   "https://i.ibb.co/3yfsYzSQ/a18c4faa8898797d2daa92e63e47861b.jpg",
-  "https://i.ibb.co/BKNjQDPX/00b0879e255400ef2ed1f3563faad69a.jpg",
-  "https://i.ibb.co/Zzjhv33V/f46c6e4d13c6afb82a2adeedfa069fba.jpg",
-  "https://i.ibb.co/PZWMvhY7/aa085c12bff422a73c5b0590870f69b1.jpg",
-  "https://i.ibb.co/5WTtdhLY/98f525db820ae4020e3ba438a8904bae.jpg",
-  "https://i.ibb.co/TMDgFWYj/ca6ae50fa968d55259bc8ad49d068f7a.jpg",
-  "https://i.ibb.co/Wv0b3GC6/dc94ff9c69805c993189d6d68a200f30.jpg"
+  "https://i.ibb.co/BKNjQDPX/00b0879e255400ef2ed1f3563faad69a.jpg"
 ];
 
 export default function Dashboard() {
@@ -31,15 +25,18 @@ export default function Dashboard() {
   const [recentOrders, setRecentOrders] = useState<any[]>([]);
   const [currentImage, setCurrentImage] = useState(0);
 
+  // Nouveaux états pour la modale
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedMeasurement, setSelectedMeasurement] = useState<any>(null);
+
   useEffect(() => {
     loadStats();
   }, []);
 
-  // Carrousel auto-défilant
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImage((prev) => (prev + 1) % bannerImages.length);
-    }, 3000); // change toutes les 3 secondes
+    }, 3000);
     return () => clearInterval(interval);
   }, []);
 
@@ -67,61 +64,17 @@ export default function Dashboard() {
   };
 
   const statCards = [
-    {
-      title: 'Clients',
-      value: stats.clientsCount,
-      icon: Users,
-      color: 'bg-blue-500',
-      bgColor: 'bg-blue-50'
-    },
-    {
-      title: 'Commandes',
-      value: stats.ordersCount,
-      icon: Package,
-      color: 'bg-green-500',
-      bgColor: 'bg-green-50'
-    },
-    {
-      title: 'Chiffre d\'affaires',
-      value: formatPrice(stats.totalRevenue),
-      icon: DollarSign,
-      color: 'bg-purple-500',
-      bgColor: 'bg-purple-50'
-    },
-    {
-      title: 'En cours',
-      value: stats.pendingOrders,
-      icon: Clock,
-      color: 'bg-orange-500',
-      bgColor: 'bg-orange-50'
-    }
+    { title: 'Clients', value: stats.clientsCount, icon: Users, color: 'bg-blue-500', bgColor: 'bg-blue-50' },
+    { title: 'Commandes', value: stats.ordersCount, icon: Package, color: 'bg-green-500', bgColor: 'bg-green-50' },
+    { title: 'Chiffre d\'affaires', value: formatPrice(stats.totalRevenue), icon: DollarSign, color: 'bg-purple-500', bgColor: 'bg-purple-50' },
+    { title: 'En cours', value: stats.pendingOrders, icon: Clock, color: 'bg-orange-500', bgColor: 'bg-orange-50' }
   ];
 
   const quickActions = [
-    {
-      title: 'Voir clients',
-      color: 'bg-green-500 hover:bg-green-600',
-      icon: Users,
-      action: () => window.dispatchEvent(new CustomEvent('navigate', { detail: 'clients' }))
-    },
-    {
-      title: 'Ajouter client',
-      color: 'bg-yellow-500 hover:bg-yellow-600',
-      icon: UserPlus,
-      action: () => window.dispatchEvent(new CustomEvent('navigate', { detail: 'clients' }))
-    },
-    {
-      title: 'Prendre mesure',
-      color: 'bg-red-500 hover:bg-red-600',
-      icon: Ruler,
-      action: () => window.dispatchEvent(new CustomEvent('navigate', { detail: 'measurements' }))
-    },
-    {
-      title: 'Voir commandes',
-      color: 'bg-blue-500 hover:bg-blue-600 text-white',
-      icon: Package,
-      action: () => window.dispatchEvent(new CustomEvent('navigate', { detail: 'orders' }))
-    }
+    { title: 'Voir clients', color: 'bg-green-500 hover:bg-green-600', icon: Users, action: () => window.dispatchEvent(new CustomEvent('navigate', { detail: 'clients' })) },
+    { title: 'Ajouter client', color: 'bg-yellow-500 hover:bg-yellow-600', icon: UserPlus, action: () => window.dispatchEvent(new CustomEvent('navigate', { detail: 'clients' })) },
+    { title: 'Prendre mesure', color: 'bg-red-500 hover:bg-red-600', icon: Ruler, action: () => window.dispatchEvent(new CustomEvent('navigate', { detail: 'measurements' })) },
+    { title: 'Voir commandes', color: 'bg-blue-500 hover:bg-blue-600 text-white', icon: Package, action: () => window.dispatchEvent(new CustomEvent('navigate', { detail: 'orders' })) }
   ];
 
   return (
@@ -200,6 +153,16 @@ export default function Dashboard() {
                     <p className="text-sm text-gray-500">
                       Livraison: {new Date(order.deliveryDate).toLocaleDateString('fr-FR')}
                     </p>
+                    {/* Bouton pour voir les mesures */}
+                    <button
+                      className="mt-2 text-blue-500 underline text-sm"
+                      onClick={() => {
+                        setSelectedMeasurement(order.measurements); // Assure-toi que order.measurements existe
+                        setIsModalOpen(true);
+                      }}
+                    >
+                      Voir mesures
+                    </button>
                   </div>
                   <div className="text-right">
                     <p className="font-semibold text-gray-800">{formatPrice(order.totalAmount)}</p>
@@ -217,6 +180,30 @@ export default function Dashboard() {
           </div>
         </div>
       )}
+
+      {/* Modal Mesures */}
+      {isModalOpen && selectedMeasurement && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-6 w-96 max-w-full shadow-lg">
+            <h2 className="text-lg font-semibold mb-4">Mesures du client</h2>
+            <ul className="space-y-2">
+              {Object.entries(selectedMeasurement).map(([key, value]) => (
+                <li key={key} className="flex justify-between">
+                  <span className="font-medium">{key} :</span>
+                  <span>{value}</span>
+                </li>
+              ))}
+            </ul>
+            <button
+              className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+              onClick={() => setIsModalOpen(false)}
+            >
+              Fermer
+            </button>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
