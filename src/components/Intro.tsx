@@ -25,7 +25,7 @@ const slides = [
     icon: Ruler,
     title: 'Optimisez vos mesures',
     description: 'Prenez et sauvegardez toutes les mesures importantes. Historique complet pour chaque client.',
-    image: 'https://images.pexels.com/photos/7691820/pexels-photo-7691820.jpeg?auto=compress&cs=tinysrgb&w=400'
+    image: 'https://i.ibb.co/prx9xvLJ/05828a972eb16664c80ece88eaa77405.jpg'
   }
 ];
 
