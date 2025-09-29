@@ -18,7 +18,7 @@ const slides = [
     icon: Package,
     title: 'Ne perdez plus aucune commande',
     description: 'Suivez vos commandes de A à Z. Dates de livraison, paiements, statuts - tout est sous contrôle.',
-    image: 'https://images.pexels.com/photos/7691819/pexels-photo-7691819.jpeg?auto=compress&cs=tinysrgb&w=400'
+    image: 'https://i.ibb.co/TMDgFWYj/ca6ae50fa968d55259bc8ad49d068f7a.jpg'
   },
   {
     id: 3,
