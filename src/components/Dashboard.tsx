@@ -12,7 +12,7 @@ const bannerImages = [
   "https://i.ibb.co/mFb2970M/81f7dc9c4245ca02578603359ed982a4.jpg",
   "https://i.ibb.co/prx9xvLJ/05828a972eb16664c80ece88eaa77405.jpg",
   "https://i.ibb.co/0pK1x7Pz/e396eb0d4d85b18fa76c38ebd1aabb49.jpg",
-  "https://picsum.photos/id/1020/1000/400",
+  "https://i.ibb.co/3yfsYzSQ/a18c4faa8898797d2daa92e63e47861b.jpg",
   "https://picsum.photos/id/1021/1000/400"
 ];
 
