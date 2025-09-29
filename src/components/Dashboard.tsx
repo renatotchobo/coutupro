@@ -8,7 +8,7 @@ const bannerImages = [
   "https://i.ibb.co/nqFqGY73/b1fd7a067e350e44a0967e474f13cd63.jpg",
   "https://i.ibb.co/yFtjYsyV/5c9d1d906f100a6736f1ce2eb92b63aa.jpg",
   "https://i.ibb.co/67S1bCwx/9284310b66f4dec745fcaa46762298d4.jpg",
-  "https://picsum.photos/id/1015/1000/400",
+  "https://i.ibb.co/XrLXmcQP/a77c81bc7bebde235ba9c5e066cc9847.jpg",
   "https://picsum.photos/id/1016/1000/400",
   "https://picsum.photos/id/1018/1000/400",
   "https://picsum.photos/id/1019/1000/400",
