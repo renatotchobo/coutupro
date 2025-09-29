@@ -90,11 +90,12 @@ export default function Dashboard() {
       action: () => window.dispatchEvent(new CustomEvent('navigate', { detail: 'measurements' }))
     },
     {
-      title: 'Voir commandes',
-      color: 'bg-white hover:bg-gray-50 text-gray-800 border-2 border-gray-300',
-      icon: Package,
-      action: () => window.dispatchEvent(new CustomEvent('navigate', { detail: 'orders' }))
-    }
+  title: 'Voir commandes',
+  color: 'bg-blue-500 hover:bg-blue-600 text-white',
+  icon: Package,
+  action: () => window.dispatchEvent(new CustomEvent('navigate', { detail: 'orders' }))
+}
+
   ];
 
   return (
