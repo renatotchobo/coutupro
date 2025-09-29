@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Users, Package, DollarSign, Clock, UserPlus, Ruler } from 'lucide-react';
 import { dataService } from '../services/dataService';
 
-// Liste de 10 images en ligne pour le carrousel
+// Liste de 10 images en ligne
 const bannerImages = [
   "https://i.ibb.co/FkqKDSXX/c4f9aea3d2ffc0aa0795c3d3fb6af2ef.jpg",
   "https://i.ibb.co/nqFqGY73/b1fd7a067e350e44a0967e474f13cd63.jpg",
@@ -13,7 +13,12 @@ const bannerImages = [
   "https://i.ibb.co/prx9xvLJ/05828a972eb16664c80ece88eaa77405.jpg",
   "https://i.ibb.co/0pK1x7Pz/e396eb0d4d85b18fa76c38ebd1aabb49.jpg",
   "https://i.ibb.co/3yfsYzSQ/a18c4faa8898797d2daa92e63e47861b.jpg",
-  "https://i.ibb.co/BKNjQDPX/00b0879e255400ef2ed1f3563faad69a.jpg"
+  "https://i.ibb.co/BKNjQDPX/00b0879e255400ef2ed1f3563faad69a.jpg",
+  "https://i.ibb.co/Zzjhv33V/f46c6e4d13c6afb82a2adeedfa069fba.jpg",
+  "https://i.ibb.co/PZWMvhY7/aa085c12bff422a73c5b0590870f69b1.jpg",
+  "https://i.ibb.co/5WTtdhLY/98f525db820ae4020e3ba438a8904bae.jpg",
+  "https://i.ibb.co/TMDgFWYj/ca6ae50fa968d55259bc8ad49d068f7a.jpg",
+  "https://i.ibb.co/Wv0b3GC6/dc94ff9c69805c993189d6d68a200f30.jpg"
 ];
 
 export default function Dashboard() {
@@ -26,43 +31,34 @@ export default function Dashboard() {
   const [recentOrders, setRecentOrders] = useState<any[]>([]);
   const [currentImage, setCurrentImage] = useState(0);
 
-  // Pour la modale "Voir mesures"
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedClient, setSelectedClient] = useState<any>(null);
-  const [clients, setClients] = useState<any[]>([]);
-
   useEffect(() => {
     loadStats();
-
-    // Charger tous les clients pour le bouton "Voir mesures"
-    const allClients = dataService.getClients();
-    setClients(allClients);
   }, []);
 
   // Carrousel auto-défilant
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImage((prev) => (prev + 1) % bannerImages.length);
-    }, 3000);
+    }, 3000); // change toutes les 3 secondes
     return () => clearInterval(interval);
   }, []);
 
   const loadStats = () => {
     const newStats = dataService.getStats();
     setStats(newStats);
-
+    
     const orders = dataService.getOrders();
-    const clientsList = dataService.getClients();
-
+    const clients = dataService.getClients();
+    
     const ordersWithClients = orders
       .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
       .slice(0, 3)
       .map(order => ({
         ...order,
-        clientName: clientsList.find(c => c.id === order.clientId)?.firstName + ' ' +
-                   clientsList.find(c => c.id === order.clientId)?.lastName
+        clientName: clients.find(c => c.id === order.clientId)?.firstName + ' ' + 
+                   clients.find(c => c.id === order.clientId)?.lastName
       }));
-
+    
     setRecentOrders(ordersWithClients);
   };
 
@@ -71,17 +67,61 @@ export default function Dashboard() {
   };
 
   const statCards = [
-    { title: 'Clients', value: stats.clientsCount, icon: Users, color: 'bg-blue-500', bgColor: 'bg-blue-50' },
-    { title: 'Commandes', value: stats.ordersCount, icon: Package, color: 'bg-green-500', bgColor: 'bg-green-50' },
-    { title: "Chiffre d'affaires", value: formatPrice(stats.totalRevenue), icon: DollarSign, color: 'bg-purple-500', bgColor: 'bg-purple-50' },
-    { title: 'En cours', value: stats.pendingOrders, icon: Clock, color: 'bg-orange-500', bgColor: 'bg-orange-50' }
+    {
+      title: 'Clients',
+      value: stats.clientsCount,
+      icon: Users,
+      color: 'bg-blue-500',
+      bgColor: 'bg-blue-50'
+    },
+    {
+      title: 'Commandes',
+      value: stats.ordersCount,
+      icon: Package,
+      color: 'bg-green-500',
+      bgColor: 'bg-green-50'
+    },
+    {
+      title: 'Chiffre d\'affaires',
+      value: formatPrice(stats.totalRevenue),
+      icon: DollarSign,
+      color: 'bg-purple-500',
+      bgColor: 'bg-purple-50'
+    },
+    {
+      title: 'En cours',
+      value: stats.pendingOrders,
+      icon: Clock,
+      color: 'bg-orange-500',
+      bgColor: 'bg-orange-50'
+    }
   ];
 
   const quickActions = [
-    { title: 'Voir clients', color: 'bg-green-500 hover:bg-green-600', icon: Users, action: () => window.dispatchEvent(new CustomEvent('navigate', { detail: 'clients' })) },
-    { title: 'Ajouter client', color: 'bg-yellow-500 hover:bg-yellow-600', icon: UserPlus, action: () => window.dispatchEvent(new CustomEvent('navigate', { detail: 'clients' })) },
-    { title: 'Voir mesures', color: 'bg-red-500 hover:bg-red-600', icon: Ruler, action: () => setIsModalOpen(true) },
-    { title: 'Voir commandes', color: 'bg-blue-500 hover:bg-blue-600 text-white', icon: Package, action: () => window.dispatchEvent(new CustomEvent('navigate', { detail: 'orders' })) }
+    {
+      title: 'Voir clients',
+      color: 'bg-green-500 hover:bg-green-600',
+      icon: Users,
+      action: () => window.dispatchEvent(new CustomEvent('navigate', { detail: 'clients' }))
+    },
+    {
+      title: 'Ajouter client',
+      color: 'bg-yellow-500 hover:bg-yellow-600',
+      icon: UserPlus,
+      action: () => window.dispatchEvent(new CustomEvent('navigate', { detail: 'clients' }))
+    },
+    {
+      title: 'Prendre mesure',
+      color: 'bg-red-500 hover:bg-red-600',
+      icon: Ruler,
+      action: () => window.dispatchEvent(new CustomEvent('navigate', { detail: 'measurements' }))
+    },
+    {
+      title: 'Voir commandes',
+      color: 'bg-blue-500 hover:bg-blue-600 text-white',
+      icon: Package,
+      action: () => window.dispatchEvent(new CustomEvent('navigate', { detail: 'orders' }))
+    }
   ];
 
   return (
@@ -174,53 +214,6 @@ export default function Dashboard() {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-      )}
-
-      {/* Modale Voir Mesures */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-96 max-w-full shadow-lg">
-            <h2 className="text-lg font-semibold mb-4 text-gray-800">Choisir un client</h2>
-            <ul className="space-y-2 max-h-64 overflow-y-auto border-t border-b border-gray-200 py-2">
-              {clients.map((client) => (
-                <li key={client.id}>
-                  <button
-                    className="w-full text-left px-3 py-2 rounded hover:bg-gray-100 transition-colors"
-                    onClick={() => setSelectedClient(client)}
-                  >
-                    {client.firstName} {client.lastName}
-                  </button>
-                </li>
-              ))}
-            </ul>
-
-            {selectedClient && selectedClient.measurements && (
-              <div className="mt-4">
-                <h3 className="font-semibold mb-2 text-gray-700">Mesures de {selectedClient.firstName}</h3>
-                <div className="bg-gray-50 p-3 rounded-lg border border-gray-200">
-                  <ul className="space-y-1">
-                    {Object.entries(selectedClient.measurements).map(([key, value]) => (
-                      <li key={key} className="flex justify-between text-gray-700">
-                        <span className="font-medium">{key} :</span>
-                        <span>{value}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            )}
-
-            <button
-              className="mt-4 w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
-              onClick={() => {
-                setSelectedClient(null);
-                setIsModalOpen(false);
-              }}
-            >
-              Fermer
-            </button>
           </div>
         </div>
       )}
