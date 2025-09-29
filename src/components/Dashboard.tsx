@@ -2,6 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { Users, Package, DollarSign, Clock, UserPlus, Ruler } from 'lucide-react';
 import { dataService } from '../services/dataService';
 
+// Liste de 10 images en ligne
+const bannerImages = [
+  "https://picsum.photos/id/1011/1000/400",
+  "https://picsum.photos/id/1012/1000/400",
+  "https://picsum.photos/id/1013/1000/400",
+  "https://picsum.photos/id/1014/1000/400",
+  "https://picsum.photos/id/1015/1000/400",
+  "https://picsum.photos/id/1016/1000/400",
+  "https://picsum.photos/id/1018/1000/400",
+  "https://picsum.photos/id/1019/1000/400",
+  "https://picsum.photos/id/1020/1000/400",
+  "https://picsum.photos/id/1021/1000/400"
+];
+
 export default function Dashboard() {
   const [stats, setStats] = useState({
     clientsCount: 0,
@@ -10,16 +24,24 @@ export default function Dashboard() {
     pendingOrders: 0
   });
   const [recentOrders, setRecentOrders] = useState<any[]>([]);
+  const [currentImage, setCurrentImage] = useState(0);
 
   useEffect(() => {
     loadStats();
+  }, []);
+
+  // Carrousel auto-défilant
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % bannerImages.length);
+    }, 3000); // change toutes les 3 secondes
+    return () => clearInterval(interval);
   }, []);
 
   const loadStats = () => {
     const newStats = dataService.getStats();
     setStats(newStats);
     
-    // Charger les commandes récentes
     const orders = dataService.getOrders();
     const clients = dataService.getClients();
     
@@ -90,16 +112,29 @@ export default function Dashboard() {
       action: () => window.dispatchEvent(new CustomEvent('navigate', { detail: 'measurements' }))
     },
     {
-  title: 'Voir commandes',
-  color: 'bg-blue-500 hover:bg-blue-600 text-white',
-  icon: Package,
-  action: () => window.dispatchEvent(new CustomEvent('navigate', { detail: 'orders' }))
-}
-
+      title: 'Voir commandes',
+      color: 'bg-blue-500 hover:bg-blue-600 text-white',
+      icon: Package,
+      action: () => window.dispatchEvent(new CustomEvent('navigate', { detail: 'orders' }))
+    }
   ];
 
   return (
     <div className="p-4 space-y-6">
+      {/* Bannière Carrousel */}
+      <div className="relative w-full h-48 rounded-lg overflow-hidden shadow-md">
+        {bannerImages.map((img, index) => (
+          <img
+            key={index}
+            src={img}
+            alt={`Bannière ${index + 1}`}
+            className={`absolute w-full h-full object-cover transition-opacity duration-1000 ${
+              index === currentImage ? "opacity-100" : "opacity-0"
+            }`}
+          />
+        ))}
+      </div>
+
       {/* Welcome */}
       <div>
         <h1 className="text-2xl font-bold text-gray-800">Tableau de bord</h1>
