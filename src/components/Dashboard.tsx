@@ -14,7 +14,7 @@ const bannerImages = [
   "https://i.ibb.co/0pK1x7Pz/e396eb0d4d85b18fa76c38ebd1aabb49.jpg",
   "https://i.ibb.co/3yfsYzSQ/a18c4faa8898797d2daa92e63e47861b.jpg",
   "https://ibb.co/F4fyp6Nt",
-  "https://i.ibb.co/3yfsYzSQ/a18c4faa8898797d2daa92e63e47861b.jpg",
+  "https://ibb.co/d0LG8ZYq",
   "https://i.ibb.co/3yfsYzSQ/a18c4faa8898797d2daa92e63e47861b.jpg",
   "https://i.ibb.co/3yfsYzSQ/a18c4faa8898797d2daa92e63e47861b.jpg",
   "https://i.ibb.co/3yfsYzSQ/a18c4faa8898797d2daa92e63e47861b.jpg",
