@@ -9,9 +9,9 @@ const bannerImages = [
   "https://i.ibb.co/yFtjYsyV/5c9d1d906f100a6736f1ce2eb92b63aa.jpg",
   "https://i.ibb.co/67S1bCwx/9284310b66f4dec745fcaa46762298d4.jpg",
   "https://i.ibb.co/XrLXmcQP/a77c81bc7bebde235ba9c5e066cc9847.jpg",
-  "https://picsum.photos/id/1016/1000/400",
-  "https://picsum.photos/id/1018/1000/400",
-  "https://picsum.photos/id/1019/1000/400",
+  "https://i.ibb.co/mFb2970M/81f7dc9c4245ca02578603359ed982a4.jpg",
+  "https://i.ibb.co/prx9xvLJ/05828a972eb16664c80ece88eaa77405.jpg",
+  "https://i.ibb.co/0pK1x7Pz/e396eb0d4d85b18fa76c38ebd1aabb49.jpg",
   "https://picsum.photos/id/1020/1000/400",
   "https://picsum.photos/id/1021/1000/400"
 ];
