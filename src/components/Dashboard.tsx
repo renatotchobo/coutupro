@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Users, Package, DollarSign, Clock, UserPlus, Ruler } from 'lucide-react';
 import { dataService } from '../services/dataService';
 
-// Liste de 10 images en ligne
+// Liste de 10 images en ligne pour le carrousel
 const bannerImages = [
   "https://i.ibb.co/FkqKDSXX/c4f9aea3d2ffc0aa0795c3d3fb6af2ef.jpg",
   "https://i.ibb.co/nqFqGY73/b1fd7a067e350e44a0967e474f13cd63.jpg",
@@ -182,12 +182,12 @@ export default function Dashboard() {
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-96 max-w-full shadow-lg">
-            <h2 className="text-lg font-semibold mb-4">Choisir un client</h2>
-            <ul className="space-y-2 max-h-60 overflow-auto">
+            <h2 className="text-lg font-semibold mb-4 text-gray-800">Choisir un client</h2>
+            <ul className="space-y-2 max-h-64 overflow-y-auto border-t border-b border-gray-200 py-2">
               {clients.map((client) => (
                 <li key={client.id}>
                   <button
-                    className="w-full text-left px-3 py-2 rounded hover:bg-gray-100"
+                    className="w-full text-left px-3 py-2 rounded hover:bg-gray-100 transition-colors"
                     onClick={() => setSelectedClient(client)}
                   >
                     {client.firstName} {client.lastName}
@@ -198,20 +198,22 @@ export default function Dashboard() {
 
             {selectedClient && selectedClient.measurements && (
               <div className="mt-4">
-                <h3 className="font-semibold mb-2">Mesures de {selectedClient.firstName}</h3>
-                <ul className="space-y-1">
-                  {Object.entries(selectedClient.measurements).map(([key, value]) => (
-                    <li key={key} className="flex justify-between">
-                      <span className="font-medium">{key} :</span>
-                      <span>{value}</span>
-                    </li>
-                  ))}
-                </ul>
+                <h3 className="font-semibold mb-2 text-gray-700">Mesures de {selectedClient.firstName}</h3>
+                <div className="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                  <ul className="space-y-1">
+                    {Object.entries(selectedClient.measurements).map(([key, value]) => (
+                      <li key={key} className="flex justify-between text-gray-700">
+                        <span className="font-medium">{key} :</span>
+                        <span>{value}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             )}
 
             <button
-              className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+              className="mt-4 w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
               onClick={() => {
                 setSelectedClient(null);
                 setIsModalOpen(false);
