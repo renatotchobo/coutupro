@@ -11,7 +11,7 @@ const slides = [
     icon: Users,
     title: 'Gérez vos clients facilement',
     description: 'Organisez toutes les informations de vos clients en un seul endroit. Photos, contacts, historique des commandes.',
-    image: 'https://images.pexels.com/photos/7691778/pexels-photo-7691778.jpeg?auto=compress&cs=tinysrgb&w=400'
+    image: 'https://i.ibb.co/BKNjQDPX/00b0879e255400ef2ed1f3563faad69a.jpg'
   },
   {
     id: 2,
