@@ -4,8 +4,8 @@ import { dataService } from '../services/dataService';
 
 // Liste de 10 images en ligne
 const bannerImages = [
-  "https://picsum.photos/id/1011/1000/400",
-  "https://picsum.photos/id/1012/1000/400",
+  "https://i.ibb.co/FkqKDSXX/c4f9aea3d2ffc0aa0795c3d3fb6af2ef.jpg",
+  "https://i.ibb.co/nqFqGY73/b1fd7a067e350e44a0967e474f13cd63.jpg",
   "https://picsum.photos/id/1013/1000/400",
   "https://picsum.photos/id/1014/1000/400",
   "https://picsum.photos/id/1015/1000/400",
