@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Plus, CreditCard as Edit, Trash2, Package, Calendar, DollarSign, User, Ruler } from 'lucide-react';
+import { 
+  Search, Plus, CreditCard as Edit, Trash2, Package, Calendar, DollarSign, User, Ruler, X 
+} from 'lucide-react';
 import { dataService } from '../services/dataService';
-import { Client, Order } from '../types';
+import { Client, Order, Measurement } from '../types';
 
 export default function Orders() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -19,6 +21,11 @@ export default function Orders() {
     paidAmount: '',
     status: 'En cours' as const
   });
+
+  // Nouveau state pour le modal des mesures
+  const [showMeasureModal, setShowMeasureModal] = useState(false);
+  const [currentMeasurements, setCurrentMeasurements] = useState<Measurement | null>(null);
+  const [currentClientName, setCurrentClientName] = useState<string>('');
 
   useEffect(() => {
     loadData();
@@ -101,13 +108,16 @@ export default function Orders() {
     }
   };
 
+  // Nouvelle fonction pour afficher les mesures
   const handleMeasure = (order: Order) => {
     const client = clients.find(c => c.id === order.clientId);
-    window.dispatchEvent(new CustomEvent('navigate', { 
-      detail: 'measurements',
-      clientData: client,
-      orderData: order
-    }));
+    if (!client || !client.measurements) {
+      alert('Aucune mesure disponible pour ce client.');
+      return;
+    }
+    setCurrentMeasurements(client.measurements);
+    setCurrentClientName(`${client.firstName} ${client.lastName}`);
+    setShowMeasureModal(true);
   };
 
   const formatPrice = (price: number) => {
@@ -132,6 +142,7 @@ export default function Orders() {
   if (showAddForm) {
     return (
       <div className="p-4">
+        {/* Formulaire pour ajouter/modifier une commande */}
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold text-gray-800">
             {editingOrder ? 'Modifier la commande' : 'Nouvelle commande'}
@@ -434,6 +445,29 @@ export default function Orders() {
               </div>
             );
           })}
+        </div>
+      )}
+
+      {/* Modal des mesures */}
+      {showMeasureModal && currentMeasurements && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg w-96 relative">
+            <button
+              onClick={() => setShowMeasureModal(false)}
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <h2 className="text-xl font-bold mb-4">Mesures de {currentClientName}</h2>
+            <ul className="space-y-2 text-gray-700">
+              {Object.entries(currentMeasurements).map(([key, value]) => (
+                <li key={key} className="flex justify-between">
+                  <span className="capitalize">{key.replace(/([A-Z])/g, ' $1')}</span>
+                  <span>{value} cm</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       )}
     </div>
