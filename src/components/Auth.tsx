@@ -91,7 +91,7 @@ export default function Auth({ onLogin }: AuthProps) {
           {/* Test Codes Info */}
           <div className="mt-6 p-4 bg-gray-50 rounded-lg text-sm">
             <p className="font-medium text-gray-700 mb-2"></p>
-            <p className="text-gray-600">• <code className="bg-white px-2 py-1 rounded"></code> - Administrateur</p>
+            <p className="text-gray-600">• <code className="bg-white px-2 py-1 rounded"></code> </p>
             <p className="text-gray-600">• <code className="bg-white px-2 py-1 rounded">USER123</code> - Utilisateur</p>
           </div>
         </div>
