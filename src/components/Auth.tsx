@@ -92,7 +92,6 @@ export default function Auth({ onLogin }: AuthProps) {
           <div className="mt-6 p-4 bg-gray-50 rounded-lg text-sm">
             <p className="font-medium text-gray-700 mb-2">Accès utilisateur</p>
             <p className="text-gray-600">Utilisez votre code personnel fourni par l'administrateur</p>
-            <p className="text-xs text-gray-500 mt-2">
               Pour l'administration, accédez à <strong>/admin</strong>
             </p>
           </div>
