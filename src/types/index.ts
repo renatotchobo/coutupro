@@ -6,6 +6,8 @@ export interface User {
   isActive: boolean;
   createdAt: string;
   lastLogin?: string;
+  address?: string;
+  phone?: string;
 }
 
 export interface Client {
@@ -30,6 +32,10 @@ export interface Order {
   paidAmount: number;
   remainingAmount: number;
   status: 'En cours' | 'Livrée' | 'Annulée';
+  measurements?: {
+    measurements: { [key: string]: number };
+    customMeasurements: { [key: string]: number };
+  };
   createdAt: string;
   updatedAt: string;
 }

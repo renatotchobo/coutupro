@@ -282,10 +282,10 @@ export default function Clients() {
               <div className="flex space-x-2 mt-4">
                 <button
                   onClick={() => handleMeasure(client)}
-                  className="flex-1 bg-red-500 text-white py-2 px-3 rounded-lg hover:bg-red-600 transition-colors flex items-center justify-center space-x-1"
+                  className="flex-1 bg-blue-500 text-white py-2 px-3 rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center space-x-1"
                 >
                   <Ruler className="w-4 h-4" />
-                  <span>Mesurer</span>
+                  <span>Voir mesures</span>
                 </button>
                 <button
                   onClick={() => handleEdit(client)}

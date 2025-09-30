@@ -97,6 +97,14 @@ export default function Measurements({ selectedClient, selectedOrder }: Measurem
     };
 
     dataService.saveMeasurement(measurementData);
+    
+    // Auto-save measurements to the order if there's a selected order
+    if (selectedOrder) {
+      dataService.updateOrder(selectedOrder.id, {
+        measurements: { measurements, customMeasurements }
+      });
+    }
+    
     alert('Mesures sauvegardées avec succès!');
     
     // Reload previous measurements

@@ -413,10 +413,10 @@ export default function Orders() {
                 <div className="flex space-x-2">
                   <button
                     onClick={() => handleMeasure(order)}
-                    className="flex-1 bg-red-500 text-white py-2 px-3 rounded-lg hover:bg-red-600 transition-colors flex items-center justify-center space-x-1"
+                    className="flex-1 bg-blue-500 text-white py-2 px-3 rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center space-x-1"
                   >
                     <Ruler className="w-4 h-4" />
-                    <span>Mesures</span>
+                    <span>Voir mesures</span>
                   </button>
                   <button
                     onClick={() => handleEdit(order)}

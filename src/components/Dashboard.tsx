@@ -125,9 +125,9 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="p-4 space-y-6">
+    <div className="p-4 space-y-4">
       {/* Bannière Carrousel */}
-      <div className="relative w-full h-48 rounded-lg overflow-hidden shadow-md">
+      <div className="relative w-full h-40 rounded-xl overflow-hidden shadow-sm">
         {bannerImages.map((img, index) => (
           <img
             key={index}
@@ -138,27 +138,22 @@ export default function Dashboard() {
             }`}
           />
         ))}
-      </div>
-
-      {/* Welcome */}
-      <div>
-        <h1 className="text-2xl font-bold text-gray-800">Tableau de bord</h1>
-        <p className="text-gray-600">Vue d'ensemble de votre activité</p>
+        <div className="absolute inset-0 bg-black bg-opacity-20"></div>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-3">
         {statCards.map((card, index) => {
           const Icon = card.icon;
           return (
-            <div key={index} className={`${card.bgColor} border-2 border-gray-200 rounded-lg p-4`}>
+            <div key={index} className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{card.title}</p>
-                  <p className="text-xl font-bold text-gray-800">{card.value}</p>
+                  <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">{card.title}</p>
+                  <p className="text-lg font-semibold text-gray-900 mt-1">{card.value}</p>
                 </div>
-                <div className={`${card.color} w-12 h-12 rounded-lg flex items-center justify-center`}>
-                  <Icon className="w-6 h-6 text-white" />
+                <div className={`${card.color} w-10 h-10 rounded-lg flex items-center justify-center`}>
+                  <Icon className="w-5 h-5 text-white" />
                 </div>
               </div>
             </div>
@@ -168,18 +163,18 @@ export default function Dashboard() {
 
       {/* Quick Actions */}
       <div>
-        <h2 className="text-lg font-semibold text-gray-800 mb-3">Actions rapides</h2>
-        <div className="grid grid-cols-2 gap-3">
+        <h2 className="text-base font-medium text-gray-800 mb-3">Actions rapides</h2>
+        <div className="grid grid-cols-2 gap-2">
           {quickActions.map((action, index) => {
             const Icon = action.icon;
             return (
               <button
                 key={index}
                 onClick={action.action}
-                className={`${action.color} text-white p-4 rounded-lg flex flex-col items-center space-y-2 transition-colors`}
+                className={`${action.color} text-white p-3 rounded-xl flex flex-col items-center space-y-1 transition-colors shadow-sm`}
               >
-                <Icon className="w-6 h-6" />
-                <span className="text-sm font-medium">{action.title}</span>
+                <Icon className="w-5 h-5" />
+                <span className="text-xs font-medium">{action.title}</span>
               </button>
             );
           })}
@@ -189,20 +184,20 @@ export default function Dashboard() {
       {/* Recent Orders */}
       {recentOrders.length > 0 && (
         <div>
-          <h2 className="text-lg font-semibold text-gray-800 mb-3">Commandes récentes</h2>
-          <div className="space-y-3">
+          <h2 className="text-base font-medium text-gray-800 mb-3">Commandes récentes</h2>
+          <div className="space-y-2">
             {recentOrders.map((order) => (
-              <div key={order.id} className="bg-white border-2 border-gray-200 rounded-lg p-4">
+              <div key={order.id} className="bg-white border border-gray-100 rounded-xl p-3 shadow-sm">
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="font-semibold text-gray-800">{order.title}</h3>
+                    <h3 className="font-medium text-gray-800 text-sm">{order.title}</h3>
                     <p className="text-sm text-gray-600">{order.clientName}</p>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-xs text-gray-500">
                       Livraison: {new Date(order.deliveryDate).toLocaleDateString('fr-FR')}
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="font-semibold text-gray-800">{formatPrice(order.totalAmount)}</p>
+                    <p className="font-medium text-gray-800 text-sm">{formatPrice(order.totalAmount)}</p>
                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                       order.status === 'En cours' ? 'bg-yellow-100 text-yellow-800' :
                       order.status === 'Livrée' ? 'bg-green-100 text-green-800' :

@@ -22,7 +22,7 @@ export default function Auth({ onLogin }: AuthProps) {
       if (user) {
         onLogin(user);
       } else {
-        setError('Code d\'autorisation invalide');
+        setError('Code d\'autorisation invalide, déjà utilisé ou actif dans un autre navigateur');
       }
     } catch (err) {
       setError('Erreur de connexion');
