@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { LogIn, Lock } from 'lucide-react';
-import { authService } from '../services/authService';
+import { adminService } from '../services/adminService';
 import { User } from '../types';
 
 interface AuthProps {
@@ -18,11 +18,11 @@ export default function Auth({ onLogin }: AuthProps) {
     setError('');
 
     try {
-      const user = authService.login(code.toUpperCase());
+      const user = adminService.authenticateUser(code.toUpperCase());
       if (user) {
         onLogin(user);
       } else {
-        setError('Code d\'autorisation invalide, déjà utilisé ou actif dans un autre navigateur');
+        setError('Code d\'autorisation invalide ou utilisateur inactif');
       }
     } catch (err) {
       setError('Erreur de connexion');
@@ -90,9 +90,11 @@ export default function Auth({ onLogin }: AuthProps) {
 
           {/* Test Codes Info */}
           <div className="mt-6 p-4 bg-gray-50 rounded-lg text-sm">
-            <p className="font-medium text-gray-700 mb-2"></p>
-            <p className="text-gray-600"> <code className="bg-white px-2 py-1 rounded"></code> </p>
-            <p className="text-gray-600"> <code className="bg-white px-2 py-1 rounded"></code> </p>
+            <p className="font-medium text-gray-700 mb-2">Accès utilisateur</p>
+            <p className="text-gray-600">Utilisez votre code personnel fourni par l'administrateur</p>
+            <p className="text-xs text-gray-500 mt-2">
+              Pour l'administration, accédez à <strong>/admin</strong>
+            </p>
           </div>
         </div>
 
