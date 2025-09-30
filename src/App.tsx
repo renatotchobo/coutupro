@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import Auth from './components/Auth';
 import Intro from './components/Intro';
+import AdminLogin from './components/AdminLogin';
+import AdminDashboard from './components/AdminDashboard';
 import Dashboard from './components/Dashboard';
 import Clients from './components/Clients';
 import Orders from './components/Orders';
 import Measurements from './components/Measurements';
 import Settings from './components/Settings';
-import Admin from './components/Admin';
 import BottomNav from './components/BottomNav';
 import TopNav from './components/TopNav';
-import { authService } from './services/authService';
+import { adminService } from './services/adminService';
 import { dataService } from './services/dataService';
 import { User } from './types';
 
-type AppState = 'auth' | 'intro' | 'main' | 'admin';
+type AppState = 'auth' | 'intro' | 'main' | 'admin-login' | 'admin';
 
 function App() {
   const [appState, setAppState] = useState<AppState>('auth');
@@ -22,17 +23,17 @@ function App() {
   const [measurementProps, setMeasurementProps] = useState<any>({});
 
   useEffect(() => {
-    // Check for existing user session
-    const user = authService.getCurrentUser();
-    if (user) {
-      setCurrentUser(user);
-      if (user.role === 'admin') {
+    // Check URL for admin route
+    if (window.location.pathname === '/admin') {
+      if (adminService.isAdminAuthenticated()) {
         setAppState('admin');
       } else {
-        setAppState('main'); // Skip intro if user is already logged in
+        setAppState('admin-login');
       }
+      return;
     }
 
+    // Regular app flow - no persistent sessions for users
     // Apply saved color settings
     const settings = dataService.getAppSettings();
     document.documentElement.style.setProperty('--primary-color', settings.primaryColor);
@@ -59,11 +60,7 @@ function App() {
 
   const handleLogin = (user: User) => {
     setCurrentUser(user);
-    if (user.role === 'admin') {
-      setAppState('admin');
-    } else {
-      setAppState('intro');
-    }
+    setAppState('intro');
   };
 
   const handleIntroComplete = () => {
@@ -71,11 +68,19 @@ function App() {
   };
 
   const handleLogout = () => {
-    authService.logout();
     setCurrentUser(null);
     setAppState('auth');
     setActiveTab('dashboard');
     setMeasurementProps({});
+  };
+
+  const handleAdminAuthenticated = () => {
+    setAppState('admin');
+  };
+
+  const handleAdminLogout = () => {
+    adminService.logoutAdmin();
+    setAppState('admin-login');
   };
 
   const getPageTitle = () => {
@@ -122,27 +127,14 @@ function App() {
     return <Intro onComplete={handleIntroComplete} />;
   }
 
+  // Admin Login State
+  if (appState === 'admin-login') {
+    return <AdminLogin onAuthenticated={handleAdminAuthenticated} />;
+  }
+
   // Admin State
   if (appState === 'admin') {
-    return (
-      <div className="min-h-screen bg-gray-100 flex flex-col">
-        <TopNav 
-          title="Administration" 
-          showProfile 
-        />
-        <div className="flex-1 overflow-y-auto">
-          <Admin />
-        </div>
-        <div className="p-4 bg-white border-t text-center">
-          <button
-            onClick={handleLogout}
-            className="text-[#0A3764] hover:text-[#195885] font-medium"
-          >
-            Se déconnecter
-          </button>
-        </div>
-      </div>
-    );
+    return <AdminDashboard onLogout={handleAdminLogout} />;
   }
 
   // Main App State

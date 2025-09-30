@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Users, Shield, Key, Activity, Plus, Edit3, Trash2, 
-  Copy, Download, RefreshCw, LogOut, Eye, EyeOff,
-  UserPlus, Settings, BarChart3, Clock, CheckCircle
-} from 'lucide-react';
+import { Users, Shield, Key, Activity, Plus, CreditCard as Edit3, Trash2, Copy, Download, RefreshCw, LogOut, Eye, EyeOff, UserPlus, Settings, BarChart3, Clock, CheckCircle } from 'lucide-react';
 import { adminService, CodeHistory } from '../services/adminService';
 import { User } from '../types';
 
