@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Shield, Users, Key, Plus, Copy, Trash2, CheckCircle, XCircle, 
-  Download, Calendar, Eye, EyeOff, Edit3, Save, X, UserPlus,
-  Activity, Globe, Clock
-} from 'lucide-react';
+import { Shield, Users, Key, Plus, Copy, Trash2, CheckCircle, XCircle, Download, Calendar, Eye, EyeOff, CreditCard as Edit3, Save, X, UserPlus, Activity, Globe, Clock } from 'lucide-react';
 import { authService } from '../services/authService';
 import { User } from '../types';
 
