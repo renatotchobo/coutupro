@@ -2,7 +2,7 @@ import { User } from '../types';
 
 const STORAGE_KEY = 'coutupro_users';
 const CURRENT_USER_KEY = 'coutupro_current_user';
-const USED_CODES_KEY = 'coutupro_used_codes';
+const ACTIVE_SESSIONS_KEY = 'coutupro_active_sessions';
 
 // Codes par défaut
 const DEFAULT_CODES = {
@@ -11,7 +11,17 @@ const DEFAULT_CODES = {
 };
 
 export class AuthService {
-  // Récupérer les utilisateurs depuis localStorage ou initialiser avec les codes par défaut
+  // ID unique du navigateur/appareil
+  private getBrowserId(): string {
+    let browserId = localStorage.getItem('browser_id');
+    if (!browserId) {
+      browserId = crypto.randomUUID();
+      localStorage.setItem('browser_id', browserId);
+    }
+    return browserId;
+  }
+
+  // Utilisateurs
   private getUsers(): User[] {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (!stored) {
@@ -33,37 +43,57 @@ export class AuthService {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
   }
 
-  private getUsedCodes(): string[] {
-    const stored = localStorage.getItem(USED_CODES_KEY);
-    return stored ? JSON.parse(stored) : [];
+  // Sessions actives
+  private getActiveSessions(): { [code: string]: string } {
+    const stored = localStorage.getItem(ACTIVE_SESSIONS_KEY);
+    return stored ? JSON.parse(stored) : {};
   }
 
-  private addUsedCode(code: string): void {
-    const usedCodes = this.getUsedCodes();
-    if (!usedCodes.includes(code)) {
-      usedCodes.push(code);
-      localStorage.setItem(USED_CODES_KEY, JSON.stringify(usedCodes));
-    }
+  private setActiveSession(code: string, browserId: string): void {
+    const sessions = this.getActiveSessions();
+    sessions[code] = browserId;
+    localStorage.setItem(ACTIVE_SESSIONS_KEY, JSON.stringify(sessions));
   }
 
-  // Connexion utilisateur (fonctionne sur tous les navigateurs)
+  private removeActiveSession(code: string): void {
+    const sessions = this.getActiveSessions();
+    delete sessions[code];
+    localStorage.setItem(ACTIVE_SESSIONS_KEY, JSON.stringify(sessions));
+  }
+
+  // Connexion utilisateur
   login(code: string): User | null {
+    const browserId = this.getBrowserId();
     const users = this.getUsers();
     const user = users.find(u => u.code === code && u.isActive);
 
     if (!user) return null;
 
-    // Mettre à jour la date de dernier login
+    const activeSessions = this.getActiveSessions();
+
+    // Vérifier si le code est déjà utilisé par un autre appareil
+    if (activeSessions[code] && activeSessions[code] !== browserId) {
+      return null; // Code occupé
+    }
+
+    // Connexion réussie
     user.lastLogin = new Date().toISOString();
     this.saveUsers(users);
     localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
 
-    // Marquer le code comme utilisé (sauf codes par défaut)
-    if (!Object.keys(DEFAULT_CODES).includes(code)) {
-      this.addUsedCode(code);
-    }
+    // Marquer le code comme actif sur ce navigateur
+    this.setActiveSession(code, browserId);
 
     return user;
+  }
+
+  // Déconnexion
+  logout(): void {
+    const currentUser = this.getCurrentUser();
+    if (currentUser) {
+      this.removeActiveSession(currentUser.code);
+    }
+    localStorage.removeItem(CURRENT_USER_KEY);
   }
 
   getCurrentUser(): User | null {
@@ -71,19 +101,14 @@ export class AuthService {
     return stored ? JSON.parse(stored) : null;
   }
 
-  logout(): void {
-    localStorage.removeItem(CURRENT_USER_KEY);
-  }
-
   // Générer un code unique
   generateCode(): string {
     let code;
-    const usedCodes = this.getUsedCodes();
     const existingCodes = this.getUsers().map(u => u.code);
 
     do {
       code = Math.random().toString(36).substring(2, 10).toUpperCase();
-    } while (usedCodes.includes(code) || existingCodes.includes(code));
+    } while (existingCodes.includes(code));
 
     return code;
   }
@@ -104,10 +129,7 @@ export class AuthService {
     return newUser;
   }
 
-  getAllUsers(): User[] {
-    return this.getUsers();
-  }
-
+  // Modifier un utilisateur
   updateUser(id: string, updates: Partial<User>): void {
     const users = this.getUsers();
     const index = users.findIndex(u => u.id === id);
@@ -117,16 +139,26 @@ export class AuthService {
     }
   }
 
+  // Supprimer un utilisateur
   deleteUser(id: string): void {
     const users = this.getUsers();
+    const userToDelete = users.find(u => u.id === id);
+    if (userToDelete) {
+      this.removeActiveSession(userToDelete.code);
+    }
     const filtered = users.filter(u => u.id !== id);
     this.saveUsers(filtered);
   }
 
-  getUsedCodesCount(): number {
-    return this.getUsedCodes().length;
+  // Liste des utilisateurs
+  getAllUsers(): User[] {
+    return this.getUsers();
+  }
+
+  // Statistiques
+  getActiveSessionsCount(): number {
+    return Object.keys(this.getActiveSessions()).length;
   }
 }
 
-// Instance exportée
 export const authService = new AuthService();
