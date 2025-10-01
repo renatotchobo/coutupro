@@ -4,7 +4,6 @@ import Intro from './components/Intro';
 import AdminLogin from './components/AdminLogin';
 import AdminDashboard from './components/AdminDashboard';
 import Dashboard from './components/Dashboard';
-import AdminPanel from './components/AdminPanel';
 import Clients from './components/Clients';
 import Orders from './components/Orders';
 import Measurements from './components/Measurements';
@@ -136,11 +135,7 @@ function App() {
   // Admin State
   if (appState === 'admin') {
     return <AdminDashboard onLogout={handleAdminLogout} />;
-    // Check if user wants to access admin panel
-    if (window.location.pathname === '/admin') {
-      return <AdminPanel />;
-    }
-    return <Dashboard />;
+  }
 
   // Main App State
   return (
